@@ -2,20 +2,19 @@ name: Build Android APK (No Android Studio Needed)
 
 on:
   push:
-    branches: ["main"]
-    paths:
-      - "src/**"
-      - "public/**"
-      - "index.html"
-      - "vite.config.ts"
-      - "capacitor.config.json"
-      - "package.json"
-      - ".github/workflows/build-android-apk.yml"
+    branches: ["main", "master"]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build-android-apk:
     runs-on: ubuntu-latest
+    env:
+      CI: "true"
+      CAPACITOR_TELEMETRY: "false"
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=-Xmx2048m -Dfile.encoding=UTF-8"
 
     steps:
       - name: Checkout repository
@@ -25,7 +24,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "npm"
 
       - name: Setup Java 21 (Temurin)
         uses: actions/setup-java@v4
@@ -35,26 +33,36 @@ jobs:
 
       - name: Install web dependencies & build dist
         run: |
-          npm ci
+          npm install --legacy-peer-deps --no-audit --no-fund
           npm run build
 
       - name: Install Capacitor & generate Android project
         run: |
-          npm install --no-save @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
+          npm install --legacy-peer-deps --no-audit --no-fund @capacitor/core@7 @capacitor/cli@7 @capacitor/android@7
           if [ ! -d "android" ]; then
             npx cap add android
           fi
           npx cap sync android
 
+      - name: Configure Android SDK & accept licenses
+        run: |
+          SDK_DIR="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-/usr/local/lib/android/sdk}}"
+          echo "Using Android SDK at: $SDK_DIR"
+          echo "sdk.dir=$SDK_DIR" > android/local.properties
+          if [ -x "$SDK_DIR/cmdline-tools/latest/bin/sdkmanager" ]; then
+            yes | "$SDK_DIR/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
+          fi
+
       - name: Build Debug APK with Gradle
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload Ready-to-Install APK
         uses: actions/upload-artifact@v4
         with:
           name: dominating-graph-roadmap-android-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
           retention-days: 30
