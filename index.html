@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>نقشه اجرای واحد پروژه Dominating Graph</title>
+    <meta
+      name="description"
+      content="مسیر اجرای یکپارچه پروژه Dominating Graph از پیاده‌سازی بک‌اند و اتصال فرانت‌اند تا انتشار روی سرور لینوکسی."
+    />
+    <meta name="theme-color" content="#0f766e" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta property="og:title" content="نقشه اجرای واحد پروژه Dominating Graph" />
+    <meta
+      property="og:description"
+      content="مسیر اجرای یکپارچه پروژه Dominating Graph از بک‌اند و اتصال فرانت‌اند تا استقرار لینوکس."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Vazirmatn:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#FAF9F6] text-zinc-900 dark:bg-[#0B0B0D] dark:text-zinc-100 antialiased selection:bg-teal-600/15 selection:text-teal-900 dark:selection:bg-teal-400/20 dark:selection:text-teal-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('./sw.js').catch(function () {});
+        });
+      }
+    </script>
+  </body>
+</html>

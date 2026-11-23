@@ -1,0 +1,11 @@
+{
+  "appId": "io.github.dominatinggraph.roadmap",
+  "appName": "نقشه اجرای Dominating Graph",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false
+  }
+}

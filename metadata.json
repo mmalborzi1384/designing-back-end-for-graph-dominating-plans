@@ -1,0 +1,6 @@
+{
+  "name": "نقشه اجرای پروژه Dominating Graph",
+  "description": "چک‌لیست تعاملی و مدرن گام‌های پیاده‌سازی بک‌اند FastAPI، اتصال فرانت‌اند و زمان‌بندی انتشار پروژه Dominating Graph با قابلیت خروجی تک‌فایل HTML.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
